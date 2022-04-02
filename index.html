@@ -21,21 +21,30 @@
     <div id="container" class="row">
         <div id="search" class="col-md-3">
             <h3>Search for a City:</h3>
-                <input type="text">
-                <button>Search</button>
+                <input type="text" id="city-input">
+                <button id="btn">Search</button>
+                <span id="city-search"></span>
+                <div id="city-container" class="list-group"></div>
         </div>
         <div id="today"class="col-md-9">
             <h4>Current Weather:</h4>
         </div>
-        <div class="row">
-            <div id="5-day"class="col-md-9">
+        <div class="col-12">
+            <div id="five-day"class="row">
                 <h4>5-Day Forcast:</h4>
+                <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+                <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+                <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+                <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+                <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
             </div>
         </div>
     </div>
 
 
 </main>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="assets/script.js"></script>
 </body>
-<script src="assets.script.js"></script>
 </html>
