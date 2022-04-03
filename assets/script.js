@@ -1,23 +1,32 @@
 //open weather api key
 const apiKey ="f99926ec7e6734adcf20edaa2bdc5d87";
 // Search City
-var cityContainerEl = document.querySelector("#city-container");
-var citySearch = document.querySelector("#city-search");
-//Current Weather
-var currentWeather = document.querySelector("#today");
-//5 Day Forecast
-var fiveDayForecast = document.querySelector("#five-day");
 
+
+//form submit
+var formSubmitHandler = function(event) {
+    event.preventDefault();
+    // get value from input element
+var city = cityInputEl.value.trim();
+    if (city) {
+        getCityWeather(city);
+        userFormEl.textContent = "";
+        cityInputEl.value = "";
+      } else {
+        alert("Please enter a city");
+      }
+    console.log(event);
+  };
 
 //Search City Button Function
-document.getElementById("btn").addEventListener("click", getWeatherCity);
+//document.getElementById("btn").addEventListener("click", getWeatherCity);
 
 
 
 // Call API
-function getWeatherCity() {
+function getCityWeather() {
     var cityName = document.getElementById("city-input").value
-    fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey)
+    fetch("https://api.openweathermap.org/data/2.5/weather?units=imperial&q=" + cityName + "&appid=" + apiKey)
     
     .then(function(response) {
         response.json().then(function(data){
@@ -26,14 +35,15 @@ function getWeatherCity() {
         });
     });
 };
+
 function getUvIndex(lon, lat) {
     var cityName = document.getElementById("city-input").value
-    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey)
+    fetch("https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=" + lat + "&lon=" + lon + "&appid=" + apiKey)
     
     .then(function(response) {
         response.json().then(function(data){
         displayUvIndex(data);
-
+ 
         });
     });
 };
@@ -44,7 +54,7 @@ function displayCity(data){
     var windSpeed = data.wind.speed
     var lat = data.coord.lat
     var long = data.coord.lon
-    console.log(data.main.temp);
+    console.log(data.name, data.main.temp);
 
     getUvIndex(long,lat)
 
@@ -57,21 +67,4 @@ function displayUvIndex(data){
 
 
 
-//display results on page
-
-
-    //cityContainerEl.textContent = "";
-    //citySearch.textContent = cityName;
-
-    
-
-
-
-
-
-var formSubmitHandler = function(event) {
-     event.preventDefault();
-
-}
-
-
+    userFormEl.addEventListener("submit", formSubmitHandler);
