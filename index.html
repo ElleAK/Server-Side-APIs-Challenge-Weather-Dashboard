@@ -17,7 +17,8 @@
 <body>
 <!--header-->
     <header class="dashboard">
-        <h1>Weather Dashboard</h1>
+        <h1>Weather Dashboard<br>
+            <span id="current-date"></span></h1>
     </header>
 <!--page content-->
     <div class="container-fluid">
@@ -29,7 +30,7 @@
                     <div class="form-group input-group">
                         <input type="text" class="form-control" id="city-input " placeholder="Enter City">
                         <div class="input-group-append">
-                            <button class="btn btn-info" type="button" id="search-city-button">
+                            <button class="btn btn-info" type="button" id="search-button">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
@@ -43,7 +44,7 @@
                 </div>
             </div>
           <!--weather results-->  
-            <div id="weather-content" class="col-12 col-md-9 hide">
+            <div id="weather-current" class="col-12 col-md-9 hide">
                 <!--current weather-->
                 <div class="row">
                     <div class="col-12">
@@ -81,6 +82,6 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="assets/script2.js"></script>
+<script src="assets/script.js"></script>
 </body>
 </html>
