@@ -149,26 +149,11 @@ function currentWeatherReturned(cityName) {
     });
 };
 
-// List the array into the search history sidebar
-function listArray() {
-    // Empty out the elements in the sidebar
-    searchHistoryList.empty();
-    // Repopulate the sidebar with each city
-    // in the array
-    cityList.forEach(function(city){
-        var searchHistoryItem = $('<li class="list-group-item city-btn">');
-        searchHistoryItem.attr("data-value", city);
-        searchHistoryItem.text(city);
-        searchHistoryList.prepend(searchHistoryItem);
-    });
-}
-    // Update city list history in local storage
-    localStorage.setItem("cities", JSON.stringify(cityList));
 
 // Display and save the search history of cities
 function searchHistory(cityName) {
     // Grab value entered into search bar 
-    //var cityName = searchCityInput.val().trim();
+    // var searchValue = searchCityInput.val().trim();
     
     // If there are characters entered into the search bar
     if (cityName) {
@@ -199,4 +184,47 @@ function searchHistory(cityName) {
         }
     }
     // console.log(cityList);
-};
+}
+
+// List the array into the search history sidebar
+function listArray() {
+    // Empty out the elements in the sidebar
+    cityHistory.empty();
+    // Repopulate the sidebar with each city
+    // in the array
+    cityList.forEach(function(city){
+        var searchHistoryItem = $('<li class="list-group-item city-btn">');
+        searchHistoryItem.attr("data-value", city);
+        searchHistoryItem.text(city);
+        cityHistory.prepend(searchHistoryItem);
+    });
+    // Update city list history in local storage
+    localStorage.setItem("cities", JSON.stringify(cityList));
+    
+}
+
+// Grab city list string from local storage
+// and update the city list array
+// for the search history sidebar
+function initalizeHistory() {
+    if (localStorage.getItem("cities")) {
+        cityList = JSON.parse(localStorage.getItem("cities"));
+        var lastIndex = cityList.length - 1;
+        // console.log(cityList);
+        listArray();
+        // Display the last city viewed
+        // if page is refreshed
+        if (cityList.length !== 0) {
+            currentConditionsRequest(cityList[lastIndex]);
+            currentWeather.removeClass("hide");
+        }
+    }
+}
+
+// Check to see if there are elements in
+// search history sidebar in order to show clear history btn
+function showClear() {
+    if (cityHistory.text() !== "") {
+        clearHistoryButton.removeClass("hide");
+    }
+}
