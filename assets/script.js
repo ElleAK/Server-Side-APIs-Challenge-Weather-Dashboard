@@ -17,8 +17,8 @@ var currentDate = moment().format('MMMM Do YYYY, h:mm a')
 $("#current-date").text( currentDate );
 
 //check for history when page loads
-//initalizeHistory();
-//showClear();
+initalizeHistory();
+showClear();
 
 //press enter to trigger search
 $(document).on("submit", function(){
@@ -72,7 +72,7 @@ function currentWeatherReturned(cityName) {
         url: currentURL,
         method: "GET"
     }).then(function(response){
-        console.log(response);
+
         currentCity.text(response.name);
         currentCity.append("<small class='text-muted' id='current-date'>");
         $("#current-date").text("(" + currentDate + ")");
@@ -91,8 +91,6 @@ function currentWeatherReturned(cityName) {
             url: UVurl,
             method: "GET"
         }).then(function(response){
-            // console.log("UV call: ")
-            // console.log(response);
             UVindex.text(response.value);
         });
 
@@ -100,17 +98,16 @@ function currentWeatherReturned(cityName) {
         var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?&units=imperial&appid=" + apiKey + "&lat=" + lat +  "&lon=" + lon;   
 
 
-         // AJAX call for 5-day forecast
+         // call for 5-day forecast
          $.ajax({
             url: forecastURL,
             method: "GET"
         }).then(function(response){
-            console.log(response);
+
             $('#five-day-forecast').empty();
             for (var i = 1; i < response.list.length; i+=8) {
 
-                var forecastDateString = moment(response.list[i].dt_txt).format("L");
-                console.log(forecastDateString);
+                var forecastDateString = moment(response.list[i].dt_txt).format("MMMM Do YYYY, h:mm a");
 
                 var forecastCol = $("<div class='col-12 col-md-6 col-lg forecast-day mb-3'>");
                 var forecastCard = $("<div class='card'>");
@@ -120,7 +117,7 @@ function currentWeatherReturned(cityName) {
                 var forecastTemp = $("<p class='card-text mb-0'>");
                 var forecastHumidity = $("<p class='card-text mb-0'>");
 
-
+                //append forecast cards and icons
                 $('#five-day-forecast').append(forecastCol);
                 forecastCol.append(forecastCard);
                 forecastCard.append(forecastCardBody);
@@ -139,10 +136,6 @@ function currentWeatherReturned(cityName) {
                 forecastHumidity.text(response.list[i].main.humidity);
                 forecastHumidity.prepend("Humidity: ");
                 forecastHumidity.append("%");
-                
-                console.log(response.list[i].dt_txt);
-                console.log(response.list[i].main.temp);
-                console.log(response.list[i].main.humidity);
 
             }
         });
@@ -150,74 +143,55 @@ function currentWeatherReturned(cityName) {
 };
 
 
-// Display and save the search history of cities
+// search history of cities
 function searchHistory(cityName) {
-    // Grab value entered into search bar 
-    // var searchValue = searchCityInput.val().trim();
-    
     // If there are characters entered into the search bar
     if (cityName) {
-        // Place value in the array of cities
-        // if it is a new entry
+        // Place value in the array of cities if it is a new entry
         if (cityList.indexOf(cityName) === -1) {
             cityList.push(cityName);
-
-            // List all of the cities in user history
+        // List all of the cities in user history
             listArray();
             clearHistoryButton.removeClass("hide");
             currentWeather.removeClass("hide");
         } else {
-            // Remove the existing value from
-            // the array
+            // Remove the existing value from the array
             var removeIndex = cityList.indexOf(cityName);
             cityList.splice(removeIndex, 1);
-
             // Push the value again to the array
             cityList.push(cityName);
-
-            // list all of the cities in user history
-            // so the old entry appears at the top
-            // of the search history
+            // old entries at top of list
             listArray();
             clearHistoryButton.removeClass("hide");
             currentWeather.removeClass("hide");
         }
     }
-    // console.log(cityList);
+    console.log(cityList);
 }
 
-// List the array into the search history sidebar
+// list the array into the search history sidebar
 function listArray() {
-    // Empty out the elements in the sidebar
+    // empty search history in sidebar
     cityHistory.empty();
-    // Repopulate the sidebar with each city
-    // in the array
+    //each city added to array
     cityList.forEach(function(city){
-        var searchHistoryItem = $('<li class="list-group-item city-btn">');
+        var searchHistoryItem = $('<li class="list-group-item">');
         searchHistoryItem.attr("data-value", city);
         searchHistoryItem.text(city);
         cityHistory.prepend(searchHistoryItem);
     });
-    // Update city list history in local storage
+    // update city list history in local storage
     localStorage.setItem("cities", JSON.stringify(cityList));
-    
 }
-
-// Grab city list string from local storage
-// and update the city list array
-// for the search history sidebar
+// get city list string from local storage
+// and update the city list array for the search history sidebar
 function initalizeHistory() {
     if (localStorage.getItem("cities")) {
         cityList = JSON.parse(localStorage.getItem("cities"));
         var lastIndex = cityList.length - 1;
         // console.log(cityList);
         listArray();
-        // Display the last city viewed
-        // if page is refreshed
-        if (cityList.length !== 0) {
-            currentConditionsRequest(cityList[lastIndex]);
-            currentWeather.removeClass("hide");
-        }
+
     }
 }
 
