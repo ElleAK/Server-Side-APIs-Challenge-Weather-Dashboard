@@ -16,8 +16,7 @@
 <body>
 <!--header-->
     <header class="dashboard">
-        <h1>Weather Dashboard<br>
-            <span id="current-date"></span></h1>
+        <h1>Weather Dashboard</h1>
     </header>
 <!--page content-->
     <div class="container-fluid">
@@ -27,7 +26,7 @@
                 <h5>Search for a city:</h5>
                 <form>
                     <div class="form-group input-group">
-                        <input type="text" class="form-control" id="city-input " placeholder="Enter City">
+                        <input type="text" class="form-control" id="city-input" placeholder="Enter City">
                         <div class="input-group-append">
                             <button class="btn btn-info" type="button" id="search-button">
                                 <i class="fa fa-search"></i>
@@ -40,15 +39,16 @@
                     <ul class="list-group list-group-flush" id="search-history-list">
                         <!-- <li class="list-group-item"></li> -->
                     </ul>
+                    <button id="clear-history" class="btn btn-sm btn-secondary hide">Clear History</button>
                 </div>
             </div>
           <!--weather results-->  
-            <div id="weather-current" class="col-12 col-md-9 ">
+            <div id="weather-current" class="col-12 col-md-9">
                 <!--current weather-->
                 <div class="row">
                     <div class="col-12">
                         <div class="city-info border rounded my-3 px-3 py-3">
-                            <h2 id="current-city">City Information 
+                            <h2 id="current-city">Current Weather<span id="current-date"></span>
                                 <small class="text-muted" id="current-date"></small></h2>
                             <p class="mb-0">Temperature: <span id="current-temp"></span></p>
                             <p class="mb-0">Humidity: <span id="current-humidity"></span></p>

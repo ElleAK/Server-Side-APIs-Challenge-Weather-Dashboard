@@ -4,6 +4,7 @@ var apiKey ="f99926ec7e6734adcf20edaa2bdc5d87";
 var cityHistory = $('#city-history-list');
 var searchCityInput = $("#city-input");
 var searchCityButton = $("#search-button");
+var clearHistoryButton = $("#clear-history");
 var currentCity = $("#current-city");
 var currentTemp = $("#current-temp");
 var currentHumidity = $("#current-humidity");
@@ -41,7 +42,17 @@ searchCityButton.on("click", function(event){
         searchCityInput.val(""); 
 });
 
-//search history button
+// Clear the sidebar of past cities searched
+clearHistoryButton.on("click", function(){
+    // Empty out the  city list array
+    cityList = [];
+    // Update city list history in local storage
+    listArray();
+    
+    $(this).addClass("hide");
+});
+
+//button will populate weather info
 cityHistory.on("click","li.city-btn", function(event) {
     // console.log($(this).data("value"));
     var value = $(this).data("value");
@@ -86,7 +97,7 @@ function currentWeatherReturned(cityName) {
         });
 
         var countryCode = response.sys.country;
-        var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?&units=imperial&appid=" + APIkey + "&lat=" + lat +  "&lon=" + lon;   
+        var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?&units=imperial&appid=" + apiKey + "&lat=" + lat +  "&lon=" + lon;   
 
 
          // AJAX call for 5-day forecast
@@ -138,3 +149,54 @@ function currentWeatherReturned(cityName) {
     });
 };
 
+// List the array into the search history sidebar
+function listArray() {
+    // Empty out the elements in the sidebar
+    searchHistoryList.empty();
+    // Repopulate the sidebar with each city
+    // in the array
+    cityList.forEach(function(city){
+        var searchHistoryItem = $('<li class="list-group-item city-btn">');
+        searchHistoryItem.attr("data-value", city);
+        searchHistoryItem.text(city);
+        searchHistoryList.prepend(searchHistoryItem);
+    });
+}
+    // Update city list history in local storage
+    localStorage.setItem("cities", JSON.stringify(cityList));
+
+// Display and save the search history of cities
+function searchHistory(cityName) {
+    // Grab value entered into search bar 
+    //var cityName = searchCityInput.val().trim();
+    
+    // If there are characters entered into the search bar
+    if (cityName) {
+        // Place value in the array of cities
+        // if it is a new entry
+        if (cityList.indexOf(cityName) === -1) {
+            cityList.push(cityName);
+
+            // List all of the cities in user history
+            listArray();
+            clearHistoryButton.removeClass("hide");
+            currentWeather.removeClass("hide");
+        } else {
+            // Remove the existing value from
+            // the array
+            var removeIndex = cityList.indexOf(cityName);
+            cityList.splice(removeIndex, 1);
+
+            // Push the value again to the array
+            cityList.push(cityName);
+
+            // list all of the cities in user history
+            // so the old entry appears at the top
+            // of the search history
+            listArray();
+            clearHistoryButton.removeClass("hide");
+            currentWeather.removeClass("hide");
+        }
+    }
+    // console.log(cityList);
+};
