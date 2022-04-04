@@ -33,3 +33,4 @@ GitHub Url: https://github.com/ElleAK/Server-Side-APIs-Challenge-Weather-Dashboa
 
 
 
+![image](https://user-images.githubusercontent.com/91795114/161466048-135a53c1-b7ae-4b35-86ed-5bb0563a2e16.png)
